@@ -1,0 +1,8 @@
+There are two primary folders, "legacy" and "internship". "Internship" is of primary interest, it contains the progress on
+the project so far. "Legacy" contains all the code from my third year project, it is included as it contains simpler 
+versions of the Discrete Vortex Method in "Intership", so may be used to aid understanding. 
+
+In "Internship" there is a folder called "Multi Sheet Project", this folder is a unity project that contains the majority 
+of the project. There are multiple scenes included, each with a different purpose. The main body of work is contained in
+"streamSimulator.cs", "DVM.cs" is an earlier version of this script and should not be confused with "streamSimulat.cs"
+(though they essentially do the same thing, streamSimulator is much more flexible and optimized).
