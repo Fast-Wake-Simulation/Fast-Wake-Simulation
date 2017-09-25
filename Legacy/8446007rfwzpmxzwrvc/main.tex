@@ -1,0 +1,91 @@
+\documentclass[12pt]{ociamthesis}  % default square logo 
+%\documentclass[12pt,beltcrest]{ociamthesis} % use old belt crest logo
+%\documentclass[12pt,shieldcrest]{ociamthesis} % use older shield crest logo
+
+%load any additional packages
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{float}
+\usepackage{minted}
+\usepackage{mdframed}
+\usemintedstyle{borland}
+\usepackage{etoolbox}
+\AtBeginEnvironment{minted}{
+    \fontsize{9}{10}}
+    
+\usepackage[style=authoryear-ibid,backend=biber]{biblatex}
+
+\addbibresource{sources.bib}% Syntax for version >= 1.2
+
+%input macros (i.e. write your own macros file called mymacros.tex 
+%and uncomment the next line)
+%\include{mymacros}
+
+\title{Implementation and Optimization of a Real-Time Wake Simulation Using Vortex Methods}   %note \\[1ex] is a line break in the titlehttps://preview.overleaf.com/public/wvmhnwxnkknq/images/6f5f6fdd1d6f308adb5eddffc3c297d242a47056.jpeg
+
+\author{Sebastian Preston-Jensen}             %your name
+\college{School of Mechanical, Aerospace and Civil Engineering}  %your college
+
+%\renewcommand{\submittedtext}{change the default text here if needed}
+\degree{Individual Project}     %the degree
+\degreedate{2016-2017}         %the degree date
+
+%end the preamble and start the document
+\begin{document}
+
+%this baselineskip gives sufficient line spacing for an examiner to easily
+%markup the thesis with comments
+\baselineskip=18pt plus1pt
+\numberwithin{equation}{section}
+
+%set the number of sectioning levels that get number and appear in the contents
+\setcounter{secnumdepth}{4}
+\setcounter{tocdepth}{3}
+\renewcommand\listoflistingscaption{List of Source Codes}
+
+\maketitle                  % create a title page from the preamble info
+\include{dedication}        % include a dedication.tex file
+\include{acknowlegements}   % include an acknowledgements.tex file
+\include{abstract}          % include the abstract
+
+\begin{romanpages}          % start roman page numbering
+\tableofcontents            % generate and include a table of contents
+\listoffigures              % generate and include a list of figures
+\listoflistings
+\end{romanpages}            % end roman page numbering
+
+%now include the files of latex for each of the chapters etc
+\include{Sections/Introduction}
+\include{Sections/LiteratureReview}
+%\include{Sections/Architecture}
+\include{Sections/VortexMethods}
+\include{Sections/ConvectiveScheme}
+\include{Sections/TemporalDiscretization}
+\include{Sections/Methods}
+\include{Sections/MethodConvection}
+\include{Sections/MethodDiscretization}
+\include{Sections/ResultsConvection}
+\include{Sections/ResultsDiscretization}
+\include{Sections/ResultsQualitative}
+\include{Sections/Conclusions}
+
+%next line adds the Bibliography to the contents page
+\addcontentsline{toc}{chapter}{Bibliography}
+%uncomment next line to change bibliography name to references
+%\renewcommand{\bibname}{References}
+%\bibliography{sources}        %use a bibtex bibliography file refs.bib
+%\bibliographystyle{plain}  %use the plain bibliography style
+
+\printbibliography
+
+%Include the appendix
+\include{Appendix/SimpleConvScript}
+\include{Appendix/FixedClustScript}
+\include{Appendix/DynamicClusterScript}
+\include{Appendix/DiscScript}
+\include{Appendix/InterimAlgorithmOptions}
+\include{Appendix/InterimDiscScript}
+\include{Appendix/InterimPhysics}
+\include{Appendix/InterimConvection}
+\include{Appendix/Data/DiscTimes}
+\end{document}

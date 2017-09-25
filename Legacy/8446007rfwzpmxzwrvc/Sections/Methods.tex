@@ -1,0 +1,24 @@
+\section{Methods - General}
+\subsection{Unity Implementation}
+The simulation is programmed in Unity using C-Sharp. C-Sharp is an object orientated programming language developed by Microsoft as part of its .NET program. However Unity implements the language through the Mono platform, this allows for Multi platform development, so the simulation can run on all x86 operating systems and some ARM based systems such as Android and IOS. The language is designed to be inherently similar to C or C++ to aid portability of code between the two languages, the performance of these languages is also comparable. The use of C-Sharp was selected over other languages, such as Matlab, as it poses far high performance and features such as multi-threading, however this is at the cost of a less user friendly languages not orientated for scientific use. 
+\\\\
+Unity utilizes the open source OpenGL API as its rendering engine, as such the visual aspects of the simulation are handled quite naturally by Unity's internal functions. These functions form all user-interface and visualization aspects of the simulation. 
+
+\subsection{Experimental Aparatus}
+All experiments were carried out on the same computer, the specifications are shown in table \ref{my-label}. The processor clock speed was limited to 17Ghz by disabling Intels Turbo Boost feature to ensure a fair test. All non essential background tasks were stopped.
+
+\begin{table}[H]
+\centering
+
+\begin{tabular}{l|lllll}
+Processor        & Dual Core Intel Core I5-4210u 1.7GHz \\ \hline
+Memory           & 8192MB DDR3                          \\ \cline{1-2}
+GPU              & Intel(R) Internal HD Graphics        \\ \cline{1-2}
+Operating System & Windows 8.1 64-bit                    
+\end{tabular}
+
+\caption{Experimental Computer Specifications}
+\label{my-label}
+\end{table}
+
+

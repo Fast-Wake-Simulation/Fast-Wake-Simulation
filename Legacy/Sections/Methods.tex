@@ -1,0 +1,23 @@
+\section{Methods}
+\subsection{Unity Implementation}
+The simulation is programmed in Unity using C-Sharp. C-Sharp is an object orientated programming language developed by Microsoft as part of its .NET program. However Unity implements the language through the Mono platform, this allows for Multi platform development, so the simulation can run on all x86 operating systems and some ARM based systems such as Android and IOS. The language is designed to be inherently similar to C or C++ to aid portability of code between the two languages, the performance of these languages is also comparable. The use of C-Sharp was selected over other languages, such as Matlab, as it poses far high performance and features such as multi-threading, however this is at the cost of a less user friendly languages not orientated for scientific use. Unity utilizes the open source OpenGL API as its rendering engine, as such the visual aspects of the simulation are handled quite naturally by Unity's internal functions. These functions form all user-interface and visualization aspects of the simulation. Whilst originally used, Unity's inbuilt physics engine, PhysX, is not utilized as it represented increased computational overhead for no increase in accuracy.
+\\\\
+Unlike a traditional procedural style 
+
+\subsection{Simulation Architecture}
+The simulation is broken into 4 independant segment
+
+\subsection{Clustering Methods}
+
+\subsubsection{Biasing Scheme}
+
+\subsubsection{Clustering Schemes}
+
+\subsection{Discretization Schemes}
+To asses the accuracy of the proposed schemes approximations were made to a known function. The selection of a known function to approximate is problematic as the different schemes have different propensities to model different functions. For example, the Quadratic Position Scheme models the position-time relationship as a quadratic function, thus it will perfectly model such a function. Likewise, the Quadratic Position Scheme models the position-time relationship as a third degree polynomial, and thus would model such a function quite naturally.
+\\\\
+The function chosen to asses the schemes was $f(x)=e^x-1$, this function was chosen as none of the schemes can naturally model this relationship. A cyclic function such as $f(x)=sin(x)$ was not chosen so that the accumulation of truncation errors could more easily be assessed. As previously discussed, the implicit schemes require information the previous states of the function. Practically this is resolved by using Euler's Method for the required amount of initial iterations. However for evaluation purposes the schemes are seeded with real values of previous states of the known function. This is done so that comparisons can be made on data accountable solely to the individual schemes, the effect of seeding using Euler's method is assessed later.
+\\\\
+To model the function $f(x)=e^x-1$ using the schemes an initial value of the function at $x=0$ was given, resulting in $f(x)=0$. A value for the derivate at $f(0)$ was given and is analogous to the velocity at the current time step. Using this information (and previous information for the implicit schemes) the schemes are used to make a prediction for the value of $f(t_{ts})$. The value of $f(t_{t})$ approximated by the schemes refers to an actual value of $f(x)$, the $x$ value this value of $f(x)$ refers to is then taken and used to find the value of $f'(x)$ at this point and this is used as the current velocity, and the process is then repeated over a set number of iterations.
+\\\\
+Approximations were made to $f(x)=e^x-1$ over the range $0\leqslant x \leqslant 4$, over this range the schemes were evaluated for 5 different time steps of $t_{ts}=$ 0.125, 0.25, 0.5, 1 and 2.

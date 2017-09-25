@@ -1,0 +1,23 @@
+\section{Introduction}
+\subsection{Overview}
+The aim of this project was to develop a Discrete Vortex Method (DVM) simulation capable of running in real-time to simulate the vortex wakes produced by an aircraft during flight. The DVM was programmed in Unity using C-Sharp. The simulation was split into 3 main functions; the Convective Scheme, the Discretization Scheme and Supporting Infrastructure. Each segment was investigated and optimized separately.
+\\\\
+The movement of air in the wake region left behind an aircraft poses a potential risk to other aircraft. As such, wake regions are implicated as the main contributing factor in many aircraft crashes. The most notable of these crashes is Delta Air Lines Flight 9570, where a McDonald Douglas DC-9, a mid size passenger plane, rotated suddenly around its roll axis during landing, causing a collision with the runway. The crash was fatal for all occupants of the plane. The NTSB (National Transport Safety Bureau) investigation into the crash accounts the sudden rolling of the aircraft to the planes interaction with the wake region caused by a larger DC-10 aircraft that had landed moments before.
+\\\\
+To avoid such crashes the NTSB mandated stricter wake-separation periods. Wake-Separation periods are waiting times between which subsequent aircraft landing on the same runway must wait. These waiting times represent a significant contribution to limiting airport capacity. Thus vortex wake regions are implicated in safety and efficiency concerns.
+
+\subsection{Motivations/Uses}
+The overview section provided an introduction to vortex wake and their implications to society. This section serves to outline the potential uses of a simulation of vortex wakes capable of running in real-time.
+\\\\
+As previously discussed, vortex wakes pose a significant safety concern if a plane enters the wake region. One way to improve the safety in such situations would be to increase the pilots competence at handling such a situation. This is of up most important if the pilot is required to fly in conditions where vortex wake interactions are unavoidable, EG air-to-air refueling. Training pilots in a real-life situation is both impractical and dangerous. Use of a flight simulator remedies both these concerns, however flight simulators employed in current pilot training implement limited and simplistic aerodynamic models. The realism, and therefore usefulness, of such simulators could be improved via implementation of a simulation of the vortex wakes regions such as the one developed for this project. Flight simulators must operate in real-time to provide an imersive experience for the pilot, hence is it imperative that the simulation be capable of running in real-time.
+\\\\
+Vortex wakes are not immediately apparent as they cannot be seen. Safety could therefore be improved if a pilot could visualize vortex wakes. Such a system be devised using the output of a simulation capable of running in real-time. 
+\\\\
+Wake-Separation periods are a major contribution to limiting airport capacity. Separation periods are mandated in order to ensure the safety of landing aircraft. Separation periods currently consist of imposing a set waiting period, dependent on the size of aircraft previously landed, until the runway may be used again. These separation periods are specified to be applicable to all situations an aircraft controller may experience, hence they often overestimate the time required for the runaway to become safe again. If separation periods can be reduced safely airport capacity can increased, further aircraft may be able to spend less time circling the airport and thus burn less fuel, lessening their impact on the environment. If an air traffic controller was equipped with a simulation that predicted the wake of aircraft landing with a high enough degree of accuracy, wake separation times could be decreased.
+\\\\
+If the simulation can be run quicker than real-time then the simulation could be used as a predictive tool. For example, air traffic controllers could predict the wake regions behind planes near their airports at points in the future and identify problematic interactions before they arise and adjust the bearings of planes accordingly.
+
+\subsection{Literature Review}
+
+\subsection{Report Format}
+This report is organized in 5 main sections; Introduction, Theory, Methods, Results and discussion.

@@ -1,0 +1,178 @@
+\section{Methods - Discretization Schemes}
+\subsection{Unity Implementation}
+All schemes were programmed as self contained functions, the only input allowed to every function was the ID of an element, likewise the output of every function was a 3 dimensional vector for the new position of the element. This turns the schemes into a series of "black boxes" which have identical inputs and outputs. As the input and outputs are identical no modification need be made to any other part of the code in order to use a different scheme, they are perfectly modular. All schemes have access to a series of shared variables and their own unique variables required. The variables shared for all schemes are shown in listing \ref{list:SharedVars}. To keep the schemes modular each scheme uses the same data types for inputs and output. Unity's Vector3 variable class is used for all positions and velocities and a floating point variable is used for the time step. The full script is provided in the appendix however snippets of important code and shown and explained here.
+
+\begin{listing}[H]
+\begin{minted}[linenos]{csharp}
+//Shared Variables for all Schemes
+private Vector3[] elementPositions = new Vector3[255];
+private Vector3[] elementVelocities = new Vector3[255];
+public float timeIncrement = 2.0f;
+
+\end{minted}
+\caption{Variable Declarations for all Discretization Schemes}
+\label{list:SharedVars}
+\end{listing}
+
+Eulers method is implemented via the function shown in listing \ref{list:EulerMethod}. Euler's method is implemented on line 10, lines 6 and 7 obtain the current position and velocity from the shared variables.
+
+\begin{listing}[H]
+\begin{minted}[linenos]{csharp}
+//Function to Iterate Eulers Method
+public Vector3 EulerIterate(int elementID)
+{
+
+    //Get Required Information from the Element ID
+    Vector3 currentPosition = elementPositions[elementID];
+    Vector3 currentVelocity = elementVelocities[elementID];
+
+    //Apply Eulers Methods
+    Vector3 newPosition = currentPosition + (timeIncrement * currentVelocity);
+
+    //Return calcualted new position
+    return newPosition;
+        
+}
+\end{minted}
+\caption{Eulers Discretization Method Implemented in Unity}
+\label{list:EulerMethod}
+\end{listing}
+
+The implementation of the Quadratic Velocity scheme requires additional infrastructure compared to the implementation of Euler's method as the previous position needs to be known. The additional variable declaration are shown in list \ref{list:QPVars}. Two new variables are shown here, the $elementPastPositions$ array holds the position of an element at the last time step. The boolean array $eulerMode$ is used to determine whether Eulers scheme should be used for a given element so that previous position data can be generated.
+
+\begin{listing}[H]
+\begin{minted}[linenos]{csharp}
+//Variables Unique to the Quadratic Position Scheme
+private Vector3[] elementPastPositions = new Vector3[255];
+public bool[] eulerMode = new bool[255];
+\end{minted}
+\caption{Variable Declarations for the Quadratic Position Scheme}
+\label{list:QPVars}
+\end{listing}
+
+The function to implement the quadratic position scheme is shown in list \ref{list:QPFunc}. The Inclusion of an if statement can seen on lines 8 to 17 to determine whether to use Euler's method or the Quadratic Position Scheme. The Quadratic Position scheme can be seen implemented on line 14, this is in contrast to line 10 in list \ref{list:EulerMethod}. Comparison of both implementations reveals very similar computation, with the Quadratic Position scheme likely exhibiting lower performance due to the additional multiplication in the solution, the added evaluation step and the need to define the variable newPos with an initialization value before the evaluation (a requirement of C\# to set the scope of the local variable).
+
+\begin{listing}[H]
+\begin{minted}[linenos]{csharp}
+//Function to Iterate using the Quadratic Position Scheme
+public Vector3 QPIterate(int eID)
+{
+
+    Vector3 newPos = new Vector3(0.0f, 0.0f, 0.0f);
+
+    //Determine whether Euler's method should be used
+    if (eulerMode[eID] == true)
+    {
+         newPos = EulerIterate(eID);
+         eulerMode[eID] = false;
+    }
+    else
+    {
+        newPos = elementPastPositions[eID] + (2f * timeIncrement * elementVelocities[eID]);
+    }
+
+    return newPos;    
+}
+\end{minted}
+\caption{Quadratic Position Discretization Scheme Function Implemented in Unity}
+\label{list:QPFunc}
+\end{listing}
+
+The Quadratic Velocity scheme required its own set of unique variables to be implemented. As the Quadratic Position scheme required a past position, the Quadratic Velocity scheme required 2 previous velocities for every element. Similiarly, the Quadratic Velocity scheme also needs a mechanism to determine whether Euler's method should be initiated. The variable declarations unique to the Quadratic Position Scheme are show in list \ref{list:QVVars}.
+
+\begin{listing}[H]
+\begin{minted}[linenos]{csharp}
+//Variables Unique to the Quadratic Velocity Scheme 
+private Vector3[,] elementPastVelocities = new Vector3[255, 2];
+public int[] eulerCount = new int[255];
+\end{minted}
+\caption{Variable Declarations for the Quadratic Velocity Scheme}
+\label{list:QVVars}
+\end{listing}
+
+The implementation of the Quadratic Velocity scheme is shown in list \ref{list:QVScheme}. The new position is calculated on line 21, otherwise the code is mostly identical to the Quadratic Position scheme. However is differs in that Euler's Method must be called twice, not once.
+
+\begin{listing}[H]
+\begin{minted}[linenos,breaklines]{csharp}
+ //Function to Iterate using the Quadratic Velocity Scheme
+    public Vector3 QVIterate(int eID)
+    {
+
+        //Declare variable with null value to define local scope in function
+        Vector3 newPos = new Vector3(0.0f, 0.0f, 0.0f);
+
+        if (eulerCount[eID] != 0)
+        {
+
+            //Call Function to Iterate via Eulers Method
+            newPos = EulerIterate(eID);
+
+            //reduce the ammont eulers method needs to be used
+            eulerCount[eID] -= 1;
+
+        }
+        else
+        {
+            //Use the QV Scheme to find new position
+            newPos = elementPositions[eID] + timeIncrement * ((5f / 12f) * elementPastVelocities[eID, 0]-(4f/3f)* elementPastVelocities[eID, 1]+(23f/12f)*elementVelocities[eID]);
+        }
+
+        //shift past velocities array
+        elementPastVelocities[eID, 0] = elementPastVelocities[eID, 1];
+        elementPastVelocities[eID, 1] = elementVelocities[eID];
+
+        return newPos;
+  
+    }
+\end{minted}
+\caption{Quadratic Velocity Discretization Scheme Function Implemented in Unity}
+\label{list:QVScheme}
+\end{listing}
+
+The entire script used to test the computational time of the dsicretization schemes is included in section of the apendix. An example showing the important mechanics is shown in list \ref{list:TestmMech}. On lines 2 and 13 the current time is taken by using Unity's Time.realtimeSinceStartup class which returns the current time since the program first executes in seconds (need reference). Between these two time readings is a for loop containing only a call to the method of a scheme to be tested. Hence the difference in these two readings is accountable to the time taken to calculate the given number of iterations, the difference is calculated on line 8.
+\\\\
+The scheme is used to set the value of the Vector3 "testPosition", this is not the position used by the schemes themselves so the position the scheme "sees" does not change throughout the iterations. The velocity vectors are also not changed throughout the iterations, so the inputs and outputs of the schemes are constant throughout the iterations.
+
+\begin{listing}[H]
+\begin{minted}[linenos,breaklines]{csharp}
+//Take initial time reading
+            var initialTime = Time.realtimeSinceStartup;
+
+            for (int itNo = 0; itNo < iterationCount; itNo++)
+            {
+
+                //Use QP Scheme
+                testPosition = QPIterate(eID);
+
+            }
+
+            //Take end time
+            var endTime = Time.realtimeSinceStartup;
+
+            //return time take
+            iterationTime = (endTime - initialTime);
+\end{minted}
+\caption{Section of Script to Time Discretization Schemes}
+\label{list:TestmMech}
+\end{listing}
+
+\subsection{Testing Methodology}
+To asses the accuracy of the proposed schemes approximations were made to a known function. The selection of a known function to approximate is problematic as the different schemes have different propensities to model different functions. For example, the Quadratic Position Scheme models the position-time relationship as a quadratic function, thus it will perfectly model such a function. Likewise, the Quadratic Position Scheme models the position-time relationship as a third degree polynomial, and thus would model such a function quite naturally.
+\\\\
+The function chosen to asses the schemes was $f(x)=e^x-1$, this function was chosen as none of the schemes can naturally model this relationship. A cyclic function such as $f(x)=sin(x)$ was not chosen so that the accumulation of truncation errors could more easily be assessed. 
+\\\\
+To model the function $f(x)=e^x-1$ using the schemes an initial value of the function at $x=0$ was given, resulting in $f(x)=0$. A value for the derivate at $f(0)$ was given and is analogous to the velocity at the current time step. Using this information (and previous information for the implicit schemes) the schemes are used to make a prediction for the value of $f(t_{ts})$. The value of $f(t_{t})$ approximated by the schemes refers to an actual value of $f(x)$, the $x$ value this value of $f(x)$ refers to is then taken and used to find the value of $f'(x)$ at this point and this is used as the current velocity, and the process is then repeated over a set number of iterations. These calculations were performed in Matlab 
+\\\\
+As previously discussed, the implicit schemes require information about the previous states of the function. Practically this is resolved by using Euler's Method for the required amount of initial iterations. However for evaluation purposes the schemes are seeded with real values of previous states of the known function. This is done so that comparisons can be made on data accountable solely to the individual schemes.
+\\\\
+Approximations were made to $f(x)=e^x-1$ over the range $0\leqslant x \leqslant 5$, over this range the schemes were evaluated for 5 different time steps of $t_{ts}=$ 0.02, 0.12, 0.22, 0.32 and 0.42. These time steps were used as they have equal increments and the lowest of the range is 0.02s, Unity's default time-step. Hence convergence for a practical scheme should be obtained by this minimum time step. The range over which the function was evaluated gave sufficient points (250 for $T_{ts}=0.02s$) to evaluate the accumulated truncation error in a time range similar to what an element may exist for in the simulation.
+\\\\
+The convergence of the scheme was tested purely mathematically, however to test the performance of the schemes they need to be tested running in unity. To do this a script was written to record the time taken for a given amount of iterations. The scheme is required to run many times a second, so the time taken to calculate should be in the order of milliseconds. Recording the time for a single iteration is therefore not preferable as on this time scale measurements are highly susceptible to noise due to background processes running on the computer. 
+\\\\
+To minimize these sources of error only Unity was run at the time of testing and all but essential background processes were closed via windows task manager. A range of data points were taken for constant inputs into the schemes but with a differing number of iterations. The range over which iterations were taken was determined by testing the amount of iterations of Eulers Method where the time taken to complete was around 10 seconds, this time range was then split into 50 intervals and tested at each interval. 
+\\\\
+A magnitude of around 10 seconds was selected as it is sufficiently large enough that the aforementioned noise shouldn't be problematic and the computational time is not excessive such that gather all data points becomes cumbersome. A range of 50 increments was selected so that the trend could be accurately captured. The resolution of this range was also fine enough such that any background noise, due to a notification or likewise, was captured and the test could be re run. 
+\\\\
+As the maths performed is constant, the calculation time should increase linearly with the amount of iterations, from the closeness of agreement of the data points to a linear trend the noise in the data can be assessed. The schemes may then be compared to relative to each other by comparison of the slopes of these linear trends. 
+\\\\
+To test the schemes

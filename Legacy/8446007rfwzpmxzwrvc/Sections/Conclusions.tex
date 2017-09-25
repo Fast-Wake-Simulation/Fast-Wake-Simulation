@@ -1,0 +1,133 @@
+\section{Conclusions}
+\subsection{General Conclusions}
+A series of investigations were performed into optimizations for the convective scheme and discretization scheme for a Discrete Vortex Method simulation. The findings from these investigations were then used for a qualitative analysis into the the
+\\\\
+For the convective scheme 3 different optimizations were investigated, a "biasing" scheme, a fixed size clustering scheme and a dynamic clustering scheme. The biasing scheme represented the simplest modification to the convective scheme, used as a benchmark compared to the more complex scheme it was found to be ineffective for both radius and vorticity biasing. Fixed size clusters and dynamics scaling clusters both represented significant performance increases compared to biasing for the same level of accuracy. The dynamic cluster scaling scheme however produced less error than all fixed cluster sizes considered whilst performing calculations quicker, hence there was no advantage found for using fixed cluster sizes over dynamics clustering. 
+\\\\
+Two simplistic implicit differing order temporal discretization schemes were compared to Euler's Method. Both showed a significant increase in accuracy. The Quadratic Position scheme represented almost negligible increase in overhead compared to Euler's method whilst the Quadratic Velocity scheme represented a roughly threefold increase in computational overhead. For the number of iterations and lowest time step considered the accumulated truncation error for the Quadratic position scheme was two orders of magnitude lower than Euler's methods whilst the Quadratic Velocity scheme was three orders of magnitude lower. Hence the quadratic position scheme as a minimum is always a better alternative than Euler's method. 
+
+\subsection{Specific Conclusions}
+\subsubsection{Convective Scheme}
+Biasing was used as a benchmark as it is the simplest method of optimization both conceptually and in terms of implementation. Optimizations were achieved using both radius and vorticity based biasing. Vorticity based biasing yielded the largest optimization in terms of performance. However this was likely down the the initial conditions used during the simulation and such results would not be seen if more complex initial conditions were used. Further investigations should be performed to assess this. Radius based biasing represented an optimization, however the gain in performance was not as significant as the clustering schemes and the accuracy over the clustering schemes reduced. Hence biasing posed no advantage over clustering other than its simper implementation. Further radius biasing did not reduce the N-Body problem to a $ON$ complexity due to the additional overhead of the evaluation.
+\\\\
+Both clustering schemes, fixed and dynamic, were superior to biasing in terms of both performance and accuracy. For the fixed clustering scheme performance was seen to increase with cluster size, however the accuracy was seen to decrease with cluster size. The dynamic cluster scheme used a base cluster abstraction size of 2x2 and was more accurate than both fixed cluster sizes tested. This is accountable to the aforementioned trend noted in the fixed clusters where larger cluster sizes lead to less accuracy, however the dynamic clustering scheme used larger clusters further away for the less influential elements. The dynamic clustering scheme posed both better performance and accuracy than fixed cluster size, hence it was used for the simulation in the Qualitative Analysis.
+\\\\
+The positional errors from the fixed cluster size scheme were concentrated mainly on the elements that lay on cluster boundaries. This was likely caused by the vorticity of the clusters being approximated to act at the average position of all the elements in the cluster. This effect was exhibited in the dynamic clustering scheme where ridges of varying magnitude, referring to differing cluster abstractions, were visible on the vortex sheet.
+
+\subsubsection{Discretization Scheme}
+Three discretization schemes were tested, Eulers Methods and the quadratic position and velocity schemes. The schemes were tested by their approximation to the function $f(x)=e^x-1$ over the range $x=0$ to $5$, for the smallest time step $t=0.02$ (referring to 60fps) the quadratic position scheme was two magnitudes of order more accurate than Eulers methods (4.8\% compared to \$0.04) whilst the quadratic scheme was three order of magnitude lower (4.8\% compared to 0.002\%). The quadratic position scheme posed a roughly 15\% increase in computational cost over Eulers method whilst the quadratic position scheme was around 270\% increase in computational cost. However the computational times were all far lower than the convective scheme. Hence the Quadratic position scheme was found to always be a better alternative than Eulers Methods, with the Quadratic velocity scheme likely being better if there is a large number of elements (so that the computational cost of the convective scheme become so large such that the cost of the discretization scheme is negligble). 
+
+\subsection{Recommendations}
+The qualitative analysis section demonstrated that the use of the optimizations were feasible and produced visually correct looking results for a simple Horseshoe Vortex. However all investigations relating to accuracy were relative to the unoptimized case. Further study is required to determine whether results accurate relative to experimental data can be obtained with an element count capable of running in real-time.
+\\\\
+All code developed during this project was single-threaded (ran on a single CPU core). However as discussed in the literature review, Real-Time CFD efforts are almost entirely implemented on parallel architectures. The dynamic clustering scheme was programmed taking this into consideration. To implement a multi threaded simulation the Convect() function can be called from independent cores. Hence multi threading is easily realised by splitting the Convect() calls between multiple cores. This is easily achieved in C\# by defining a "thread" method type. Hence no new infrastructure is required. If investigations reveal an element count capable of simulation realistic results cannot be obtained using a single threaded code the addition of multi threading needs to be considered.
+\\\\
+Euler's method was found to be significantly inefficient compared to higher order scheme with an accuracy increase of around two order of magnitude for a 15\% increase in computational cost. Hence if the same accuracy is required then a higher order scheme can be used and the time step increased. If a larger time step is used the convective scheme is given more time to perform its calculations. Given more time to perform its calculations means more element may be used. Hence Further investigation is required to determine the optimum parameters in regard to time-step and element count should be conducted. If the time-step is larger than required for the simulation to appear to run in real-time interpolations could be used. Both the the quadratic position and velocity scheme mapped polynomials to position, these polynomial could be used for multiple frames whilst the convective scheme calculates the new velocity field.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

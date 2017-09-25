@@ -1,0 +1,207 @@
+;This file was created by Graph (http://www.padowan.dk)
+;Do not change this file from other programs.
+[Graph]
+Version = 4.4.2.543
+MinVersion = 2.5
+OS = Windows NT 6.2 
+
+[Axes]
+xMin = -0.146946255379216
+xMax = 3.26610769952571
+xTickUnit = 0.5
+xGridUnit = 0.5
+yMin = -1.46744879791871
+yMax = 19.7856595625976
+yTickUnit = 2
+yGridUnit = 2
+AxesColor = clBlue
+GridColor = 0x00FF9999
+ShowLegend = 0
+Radian = 1
+
+[Func1]
+FuncType = 0
+y = e^x-1
+Color = clBlue
+
+[PointSeries1]
+FillColor = clTeal
+LineColor = clBlue
+Size = 5
+Style = 1
+LabelPosition = 1
+PointCount = 6
+Points = 0,0;0.5,0.358707578;1,1.889696872;1.5,4.147522106;2,7.573481888;2.5,13.72726485;
+Visible = 0
+LegendText = Series 1
+
+[PointSeries2]
+FillColor = clTeal
+LineColor = clBlue
+Size = 5
+Style = 0
+LabelPosition = 1
+PointCount = 6
+Points = 0,0;0.75,0.397066329;1.5,2.512676476;2.25,6.132454204;3,12.56980547;3.75,26.24229631;
+Visible = 0
+LegendText = Series 2
+
+[PointSeries3]
+FillColor = clTeal
+LineColor = clBlue
+Size = 5
+Style = 6
+LabelPosition = 1
+PointCount = 26
+Points = 0,0;0.1,0.110614053;0.2,0.233042926;0.3,0.36824494;0.4,0.518384971;0.5,0.685091321;0.6,0.870078058;0.7,1.075361485;0.8,1.303183374;0.9,1.556015509;1,1.836601674;1.1,2.14798902;1.2,2.493558943;1.3,2.87706375;1.4,3.302667714;1.5,3.774992276;1.6,4.299166182;1.7,4.880881183;1.8,5.526453841;1.9,6.242894121;2,7.037981502;2.1,7.920349454;2.2,8.899579188;2.3,9.986303687;2.4,11.19232317;2.5,12.53073322;
+Visible = 0
+LegendText = Series 3
+
+[PointSeries4]
+FillColor = clTeal
+LineColor = clBlue
+Size = 5
+Style = 6
+LabelPosition = 1
+PointCount = 7
+Points = 0,0;0.5,0.5;1,1.324360635;1.5,2.68350155;2,4.924346085;2.5,8.618874134;3,14.71012111;
+LegendText = Series 4
+
+[PointSeries5]
+FillColor = clRed
+LineColor = clBlue
+Size = 5
+Style = 6
+LabelPosition = 1
+PointCount = 7
+Points = 0,0;0.5,0.591408814;1,1.566477104;1.5,3.174092936;2,5.824603352;2.5,10.19455625;3,17.39939055;
+LegendText = Series 5
+
+[PointSeries6]
+FillColor = clTeal
+LineColor = clBlue
+Size = 5
+Style = 6
+LabelPosition = 1
+PointCount = 16
+Points = 0,0;0.2,0.2;0.4,0.444280552;0.6,0.742645491;0.8,1.107069251;1,1.552177437;1.2,2.095833803;1.4,2.759857187;1.6,3.570897181;1.8,4.561503665;2,5.771433158;2.2,7.249244378;2.4,9.054247078;2.6,11.25888235;2.8,13.95162996;3,17.24055932;
+LegendText = Series 6
+
+[PointSeries7]
+FillColor = clRed
+LineColor = clBlue
+Size = 5
+Style = 6
+LabelPosition = 1
+PointCount = 16
+Points = 0,0;0.2,0.231125251;0.4,0.513422269;0.6,0.858220626;0.8,1.27935829;1,1.793736995;1.2,2.422000564;1.4,3.18936342;1.6,4.126622528;1.8,5.271393388;2,6.669619674;2.2,8.377417117;2.4,10.46332562;2.6,13.01106003;2.8,16.12286985;3,19.92364296;
+LegendText = Series 7
+
+[PointSeries8]
+FillColor = clTeal
+LineColor = clBlue
+Size = 5
+Style = 0
+LabelPosition = 1
+PointCount = 4
+Points = 0,0;1,1;2,3.718281828;3,11.10733793;
+LegendText = Series 8
+
+[PointSeries9]
+FillColor = clRed
+LineColor = clBlue
+Size = 5
+Style = 0
+LabelPosition = 1
+PointCount = 4
+Points = 0,0;1,0.430806332;2,1.601859356;3,4.785111512;
+LegendText = Series 9
+
+[PointSeries10]
+FillColor = clTeal
+LineColor = clBlue
+Size = 5
+Style = 1
+LabelPosition = 1
+PointCount = 3
+Points = 0,0;1.5,1.5;3,8.222533606;
+LegendText = Series 10
+
+[PointSeries11]
+FillColor = clRed
+LineColor = clBlue
+Size = 5
+Style = 1
+LabelPosition = 1
+PointCount = 3
+Points = 0,0;1.5,0.545007661;3,2.987562541;
+LegendText = Series 11
+
+[Func2]
+FuncType = 1
+x = if(t<1,0+0.5*t,t<2,0+0.5*t,t<3,0+0.5*t,t<4,0+0.5*t,t<5,0+0.5*t,t<6,0+0.5*t)
+y = if(t<1,0+0.5*t,t<2,-0.324361+0.824361*t,t<3,-1.39392+1.35914*t,t<4,-4.03903+2.24084*t,t<5,-9.85377+3.69453*t,t<6,-21.8374+6.09125*t)
+LegendText = Moving average
+From = 0
+To = 6
+Steps = 1000
+Color = clTeal
+
+[Func3]
+FuncType = 1
+x = if(t<1,0+0.5*t,t<2,0+0.5*t,t<3,0+0.5*t,t<4,0+0.5*t,t<5,0+0.5*t,t<6,0+0.5*t)
+y = if(t<1,0+0.591409*t,t<2,-0.383659+0.975068*t,t<3,-1.64875+1.60762*t,t<4,-4.77744+2.65051*t,t<5,-11.6552+4.36995*t,t<6,-25.8296+7.20483*t)
+LegendText = Moving average
+From = 0
+To = 6
+Steps = 1000
+Color = clRed
+
+[Func4]
+FuncType = 1
+x = if(t<1,0+1*t,t<2,0+1*t,t<3,0+1*t)
+y = if(t<1,0+1*t,t<2,-1.71828+2.71828*t,t<3,-11.0598+7.38906*t)
+LegendText = Moving average
+From = 0
+To = 3
+Steps = 1000
+Color = clTeal
+
+[Func5]
+FuncType = 1
+x = if(t<1,0+1*t,t<2,0+1*t,t<3,0+1*t)
+y = if(t<1,0+0.430806*t,t<2,-0.740247+1.17105*t,t<3,-4.76464+3.18325*t)
+LegendText = Moving average
+From = 0
+To = 3
+Steps = 1000
+Color = clRed
+
+[Func6]
+FuncType = 1
+x = if(t<1,0+1.5*t,t<2,0+1.5*t)
+y = if(t<1,0+1.5*t,t<2,-5.22253+6.72253*t)
+LegendText = Moving average
+From = 0
+To = 2
+Steps = 1000
+Color = clTeal
+
+[Func7]
+FuncType = 1
+x = if(t<1,0+1.5*t,t<2,0+1.5*t)
+y = if(t<1,0+0.545008*t,t<2,-1.89755+2.44255*t)
+LegendText = Moving average
+From = 0
+To = 2
+Steps = 1000
+Color = clRed
+
+[Data]
+TextLabelCount = 0
+FuncCount = 7
+PointSeriesCount = 11
+ShadeCount = 0
+RelationCount = 0
+OleObjectCount = 0
+

@@ -1,0 +1,25 @@
+fileFormatVersion: 2
+guid: 955bab9be37a09d4895bc1d37a0c80b9
+timeCreated: 1472426417
+licenseType: Free
+MonoImporter:
+  serializedVersion: 2
+  defaultReferences:
+  - liftArrow: {fileID: 183112, guid: 75696c259880e714f8757ba47bfc3ab3, type: 2}
+  - rb: {instanceID: 0}
+  - rightWingImage: {instanceID: 0}
+  - leftWingImage: {instanceID: 0}
+  - tailImage: {instanceID: 0}
+  - rightWingEmitter: {instanceID: 0}
+  - leftWingEmitter: {instanceID: 0}
+  - rightWingEmitterMesh: {instanceID: 0}
+  - leftWingEmitterMesh: {instanceID: 0}
+  - rightWingTip: {instanceID: 0}
+  - leftWingTip: {instanceID: 0}
+  - rightWingGraphic: {instanceID: 0}
+  - leftWingGraphic: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

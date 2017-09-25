@@ -1,0 +1,290 @@
+\section{Theory - Temporal Discretization}
+\subsection{Introduction}
+The convective routine results in the calculation of the velocities of all elements at a given time given a series of element positions and vorticity, solving analytically results in a large number of interdependent differential equations that are problematic and inefficient to solve in real time. Instead the time domain is discretized into discrete “Time Steps” and numerical approximations used to solve for the position of the elements at the end of the time step. Splitting the time domain into discrete time steps is known as “Temporal Discretization”.
+\\\\
+The problem can be stated as given a current position $X_{1}$, time $t_{1}$ and velocity $v_{1}$, find the position $x_{2}$ at $t_{2}=t_{1}+t_{ts}$. This is shown in equation \ref{eq:tdprob} where $f(v_{1},t_{ts})$ represents the scheme used.
+
+\begin{equation}
+\label{eq:tdprob}
+x_{2}=x_{1}+f(v_{1},t_{ts})
+\end{equation}
+
+The discretization process necessarily introduces discretization error. By approximating the continuous function to a discrete series of  points a truncation error is introduced, this error reduces as more points are used to represent the continuous function. Hence, as a finer time step is used this error will decrease. The way in which this error scales with the time step is known as the order of accuracy of the scheme. The order of accuracy is determined by how the leading error term scales with the time step. For example, in a first order scheme the leading error term is proportional to the time step used squared, this is shown in equation \ref{eq:tdfirstorder}. Likewise, in a second order scheme the leading error term is proportional the the time step cubed, this is demonstrated in equation \ref{eq:secondorder}. Note, these definitions are for schemes applied to differential equations and are not the same as the traditional CFD definitions for order of accuracy.
+\begin{equation}
+\label{eq:tdfirstorder}
+x_{2}=x_{2}+ot_{ts}^2
+\end{equation}
+\begin{equation}
+\label{eq:secondorder}
+x_{2}=x_{2}+ot_{ts}^3
+\end{equation}
+
+It would then seem that a higher order scheme is preferable as the truncation error is reduced quicker as the time step is refined. However higher order schemes are also associated with a higher computational overhead and diminishing returns from even higher order schemes will become apparent. Further, the truncation error is not the only variable when deciding upon a scheme to use. Two major considerations are made when determining a scheme to use, the convergence and stability of a scheme. As truncation errors sum up as the routine is iterated, the approximated value of the function is seen to "drift" away from the actual value of the function as the approximation diverges. To increase convergence a finer time step or higher order discretization scheme can be used.
+\\\\
+The rate of convergence of a scheme can be expressed as the rate at which the error norms of the approximation reduces as the time step is refined, a definition of error norms is given in equation \ref{eq:errornormsdef} where $x^{(n)}$ is the numerical approximation to the continuous function and $x^{ex}$ is the exact solution. Convergence of a scheme can be tested by calculating the Error norms of a known continuous function 
+
+\begin{equation}
+\label{eq:errornormsdef}
+Error^{(n)}=\sum_{n}^{1} |x^{n}-x^{ex}|
+\end{equation}
+
+Higher order schemes often decrease the stability of the approximation. Stability issues arise due to the approximation consistently over or underestimating the value of the function, or the scheme producing non-physical results. Higher order schemes are more susceptible to this error as they may produce more extreme fluctuations based on their inputs if those inputs are based only on current and/or previous values of the function and the independent variable, these are known as explicit schemes. However schemes that utilize future values of the function and independent variables, known as implicit scheme, do not exhibit this behavior to a significant degree. 
+\\\\
+It may seem that a high order implicit scheme would be the best choice for a discretization scheme. And indeed these are the most common schemes employed by real time physics engines. Whilst PhysX (utilized by unity) and other popular physics engines such as Havok and Newton are closed source and so their schemes are not disclosed (PhysX is know to use a implicit simplectic scheme of unknown order) a number of open source engines are available. ODE (Open Dynamics Engine) is a popular open source physics engine, being open source its source code can be freely examined. The Open Dynamics Engine uses an implicit method described by Stewart and Trinkle in their 1996 paper "An implicit time-stepping scheme for rigid body dynamics with inelastic collisions and Coulomb friction".
+\\\\
+Despite both PhysX and ODE using implicit schemes, an explicit scheme is to be used for this simulation. For PhysX and ODE the use of an explicit scheme is reasonable as the largest computational overhead is not associated with the calculation of a velocity of an element (in the the case of PhysX and ODE the element is a Rigidbody, akin to the Discrete Vortex Element in this simulation) and thus it is practical to do this numerous times per time step. Their largest overheads are associated with processes related to collision detection and force summation. However in the present simulation, the single largest overhead is associated with the calculation of the velocity of an element, to such a degree that the discretization scheme represents almost no overhead. Thus using the convection routine to calculate future velocities of elements would represent a decrease in performance.
+\\\\
+As the discretization scheme represents a near negligible overhead compared to the convection routine the motivation behind developing a new scheme should not centre majorly on the performance of the scheme but the increase in accuracy of the scheme. Any increase in performance of the scheme may represent a slight increase in performance of the overall simulation. However, an increase in accuracy of the scheme will allow for a coarser time step to be utilized to achieve the same accuracy as the original scheme. This coarser time step allows for more computation time allocated to the convective routine, given more computational time more elements can be calculated. Thus, improving the accuracy of the scheme represents a possible large increase in accuracy by allowing more elements to be used during the simulation.
+\\\\
+In this section, Eulers method of discretization is presented along with 2 novel explicit methods developed for the present simulation based on extrapolations of interpolating polynomials. These schemes are then assessed for their convergence and stability and a suitable scheme selected for the simulation. Eulers scheme is the only scheme that approximates the future value of the function using only current conditions. This is of importance as explicit schemes may only be used once enough time steps have passed such that the previous values they require can be known, thus Eulers scheme is necessarily used at the start of the simulation if an explicit scheme is to be used.
+
+\subsection{Eulers Method}
+The convective routine results in the calculation of the velocities of all elements, Eulers scheme makes the assumption that this velocity is constant throughout the entire time step. So it assumes the downwind velocity of the fluid at the next time step is the current fluid velocity. This is shown in equation \ref{eq:euler1} where $v_t$ is the $v_x$ velocity at the current time step and $t_{ts}$ is the time step.
+
+\begin{equation}
+\label{eq:euler1}
+x_{new}=x_{current}+\int_{t}^{t+t_{ts}} v_{x}dt
+\end{equation}
+
+Solving equation \ref{eq:euler1} leads to equation \ref{eq:euler2}
+
+\begin{equation}
+\label{eq:euler2}
+x_{new}=x_{current}+v_{x}t_{ts}
+\end{equation}
+
+This scheme is applied to all 3 spatial dimensions to obtain a new position vector for every blob, this is shown in vector form in equation \ref{eq:euler3}
+\begin{equation}
+\label{eq:euler3}
+\begin{pmatrix}
+x\\
+y\\
+z
+\end{pmatrix}_{new}=\begin{pmatrix}
+x\\
+y\\
+z
+\end{pmatrix}_{old}+t_{ts}\begin{pmatrix}
+v_x\\
+v_y\\
+v_z
+\end{pmatrix}
+\end{equation}
+
+To determine the order of accuracy of the scheme, the scheme in the form given in equation \ref{eq:euler2} is taken. The value for $X_{new}$ is then written as a Taylor series approximation centered on $X_{old}$, this is given in equation \ref{eq:euler4}
+
+\begin{equation}
+\label{eq:euler4}
+x_{new}=x_{old}+x_{old}^{'}t_{ts}+( \frac{x_{old}^{''}}{2})t_{ts}^2+Ot_{ts}^3
+\end{equation}
+
+Taking equations \ref{eq:euler2} from \ref{eq:euler4} yields equation \ref{eq:euler5} 
+
+\begin{equation}
+\label{eq:euler5}
+0=(x_{old}+x_{old}^{'}t_{ts}+( \frac{x_{old}^{''}}{2})t_{ts}^2+Ot_{ts}^3+...)-(x_{old}+v_{x}t_{ts})
+\end{equation}
+
+Equation \ref{eq:euler5} further simplifies to equation \ref{eq:euler6}
+
+\begin{equation}
+\label{eq:euler6}
+0=( \frac{x_{old}^{''}}{2})t_{ts}^2+Ot_{ts}^3+...
+\end{equation}
+
+From equation \ref{eq:euler6} it can be seen that the leading error term is proportional to $t_{ts}^2$, hence Euler's method is first order accurate
+
+\subsection{Quadratic Position Scheme}
+This scheme approximates the position at the next time step by use of a polynomial to estimate the position of an element at t+ts. A second second degree polynomial is to be used to interpolate the position of each element. In order to fully define a second degree polynomial 3 values of the polynomial are required. However to ensure the scheme converges on the exact solution, the derivative of the interpolating polynomial should be equal to the derivate of the exact solution. To maintain this condition the polynomial is instead mapped to two known positions, and an extra condition imposed relating its derivative to the velocity at the current time step. These conditions are shown in equations \ref{eq:poly1} to \ref{eq:poly3}. 
+
+\begin{equation}
+\label{eq:poly1}
+p(t)=At^2+Bt+C
+\end{equation}
+
+\begin{equation}
+\label{eq:poly2}
+p(t-t_{ts})=A(t-t_{ts})^2+B(t-t_{ts})+C
+\end{equation}
+
+\begin{equation}
+\label{eq:poly3}
+p'(t)=2At+B
+\end{equation}
+
+Rearanging equations \ref{eq:poly1} and \ref{eq:poly2} for C and equations yields equation \ref{eq:poly4}
+
+\begin{equation}
+\label{eq:poly4}
+p(t)-At^2-Bt=p(t-t_{ts})-A(t-t_{ts})^2-B(t-t_{ts})
+\end{equation}
+
+Equation \ref{eq:poly3} can then be rearanged for B, this is shown in \ref{eq:poly5}
+
+\begin{equation}
+\label{eq:poly5}
+B=p'(t)-2At
+\end{equation}
+
+Substituting the value for B from equation \ref{eq:poly5} into equation \ref{eq:poly4} results in a single equation with only one unknown, A. This is shown in equation \ref{eq:poly6}.
+
+\begin{equation}
+\label{eq:poly6}
+p(t)-At^2-(p'(t)-2At)t=p(t-t_{ts})-A(t-t_{ts})^2-(p'(t)-2At)(t-t_{ts})
+\end{equation}
+
+As equation \ref{eq:poly6} has only one unknown, A, we can solve for A. This is shown in equation \ref{eq:poly7}. Steps ommited from the derivation here are included in the appendix
+
+\begin{equation}
+\label{eq:poly7}
+A=\frac{p(t)-p(t-t_{ts})-p'(t)t_{ts}}{t*t_{ts}+t_{ts}^2}
+\end{equation}
+
+Now A is a known value, it can be used to substitute into the original equations to solve for B and C. Equation \ref{eq:poly5} is used for this as it contains only two unknown, A and B, and A in now known. Now both A and B are known values, equation \ref{eq:poly1} can be rearanged to for an expression for C, this is shown in equation \ref{eq:poly8}
+
+\begin{equation}
+\label{eq:poly8}
+C=p(t)-At^2-Bt
+\end{equation}
+
+A, B and C are now all known values, so a second degree polynomial has been obtained to interpolate the position of an element. The calculation of the coefficients further simplifies if for every iteration of the scheme, the current time is take to be 0. In this case, the equations for the coefficients becomes equations \ref{eq:poly9} to \ref{eq:poly11}
+
+\begin{equation}
+\label{eq:poly9}
+A=\frac{p(0)-p(-t_{ts})-p'(0)t_{ts}}{t_{ts}^2}
+\end{equation}
+
+\begin{equation}
+\label{eq:poly10}
+B=p'(0)
+\end{equation}
+
+\begin{equation}
+\label{eq:poly11}
+C=p(0)
+\end{equation}
+
+The future position of the element is then determined by $p(t_{ts})$, this scheme applied to all 3 spatial dimensions is shown in matrix form in equation \ref{eq:poly12}.
+
+\begin{equation}
+\label{eq:poly12}
+\end{equation}
+
+Because explicit schemes require knowledge
+
+\subsection{Quadratic Velocity Scheme}
+This scheme uses a LaGrange Interpolating polynomial to extrapolate the future velocity trend as a function of time which is then integrated over the time step period for all 3 spatial dimensions to estimate the position at the text time step. The general form of the LaGrange interpolating polynomial is given is equations \ref{eq:lagrange1} and \ref{eq:lagrange2}
+
+\begin{equation}
+\label{eq:lagrange1}
+p(x)=\sum_{j=1}^{n} P_j(x)
+\end{equation}
+
+\begin{equation}
+\label{eq:lagrange2}
+p_j(x)=f(x)\prod_{k=i, k\neq j}^{n} \frac{x-x_k}{x_j-x_k}
+\end{equation}
+
+Given 3 know previous know velocities v1, v2, v3 at t1, t2 and t3 respectively, the velocity-time curve interpolating polynomial is given by equation (3)
+
+\begin{equation}
+\label{eq:lagrange3}
+p(x)=\frac{(t-t_2)(t-t_3)}{(t_1-t_2)(t_1-t_3)}v_1+\frac{(t-t_1)(t-t_3)}{(t_2-t_1)(t2-t_3)}v_2+\frac{(t-t_1)(t-t_2)}{(t_3-t_1)(t_3-t_2)}v_3
+\end{equation}
+
+The time-step between iterations of the convection routine is fixed during the simulation, so the three know previous velocities occur at equally spaced time steps, given a fixed time step of $t_{ts}$, the values of t for which velocities are known are given in equation \ref{eq:lagrange4} where t is is the current time.
+\begin{equation}
+\label{eq:lagrange4}
+v_1=v(t-2t_{ts}), v_2=v(t-t_{ts}), v_3=v(t)
+\end{equation}
+
+For each time step a new interpolating polynomial is calculated, and the function integrated over the range t to t+tts, to simplify the calculation the polynomial is instead centred around 0, for this case the known velocities reduces to equation \ref{eq:lagrange5}, this polynomial is integrated over the range 0 to tts.
+
+\begin{equation}
+\label{eq:lagrange5}
+v_1=v(2t_{ts}), v_2=v(t_{ts}), v_3=v(0)
+\end{equation}
+
+Centring the polynomial on 0 reduces the complexity of equation \ref{eq:lagrange3} by removing the term $x_1$, equation \ref{eq:lagrange6} shows equation \ref{eq:lagrange4} with substituted values for $t_1$, $t_2$ and $t_3$
+
+\begin{equation}
+\label{eq:lagrange6}
+p(x)=\frac{(t+t_{ts})(t+2t_{ts})}{2t_{ts}^2}v_1-\frac{t(t+2t_{ts})}{t_{ts}^2}v_2+\frac{t(t+t_{ts})}{2t_{ts}^2}v_3
+\end{equation}
+
+Equation \ref{eq:lagrange6} further simplifies to equation \ref{eq:lagrange7}
+
+\begin{equation}
+\label{eq:lagrange7}
+p(x)=\frac{v_1}{2t_{ts}^2}(t^2+3t*t_{ts}+2t_{ts}^2)-\frac{v_2}{t_{ts}^2}(t^2+2t*t_{ts})+\frac{v_3}{2t_{ts}^2}(t^2+t*t_{ts})
+\end{equation}
+
+This can be expressed as a second degree polynomial of the form of equation \ref{eq:lagrange8}.
+
+\begin{equation}
+\label{eq:lagrange8}
+p(x)=Ax^2+Bx+c
+\end{equation}
+
+Where the coefficients A, B and C are given by equations \ref{eq:lagrange9}, \ref{eq:lagrange10} and \ref{eq:lagrange11} respectively
+
+\begin{equation}
+\label{eq:lagrange9}
+A=\frac{v_1}{2t_{ts}^2}-\frac{v_2}{t_{ts}^2}+\frac{v_3}{2t_{ts}^2}
+\end{equation}
+
+\begin{equation}
+\label{eq:lagrange10}
+B=\frac{3v_1}{2t_{ts}}-\frac{2v_2}{t_{ts}}+\frac{v_3}{2t_{ts}}
+\end{equation}
+
+\begin{equation}
+\label{eq:lagrange11}
+C=V_1
+\end{equation}
+
+The change in position of all the blobs is calculated by the integration of this function over the range 0 to $t_{ts}$, this is shown in equation \ref{eq:lagrange12}
+
+\begin{equation}
+\label{eq:lagrange12}
+\delta x=\int_{0}^{t_{ts}} v(t)dt=\int_{0}^{t_{ts}} (Ax^2+Bx+c)=\frac{At_{ts}^3}{3}+\frac{Bt_{ts}^2}{2}+Ct_{ts}
+\end{equation}
+
+Expanding equation \ref{eq:lagrange12} by replacing the coefficients of the polynomial a, b and c with substitutions from equations \ref{eq:lagrange9} through to \ref{eq:lagrange11} results in equation \ref{eq:lagrange13}.
+
+\begin{equation}
+\label{eq:lagrange13}
+\Delta x=t_{ts}\left[v_1(\frac{1}{6}+\frac{3}{4}+1)+v_2(\frac{1}{3}-1)+v_3(\frac{1}{6}+\frac{1}{4})\right]
+\end{equation}
+
+This scheme is applied for all three spatial dimensions, this is shown in matrix form in equation \ref{eq:lagrange14}
+
+\begin{equation}
+\label{eq:lagrange14}
+\begin{pmatrix}
+x\\
+y\\
+z
+\end{pmatrix}_{new}=\begin{pmatrix}
+x\\
+y\\
+z
+\end{pmatrix}_{old}+t_{ts}\begin{bmatrix}
+v_{x1}	&	v_{x2}	&	v_{x3}\\
+v_{y1}	&	v_{y2}	&	v_{y3}\\
+v_{z1}	&	v_{z2}	&	v_{z3}
+\end{bmatrix}\begin{pmatrix}
+\frac{1}{6}+\frac{3}{4}+1\\
+\frac{1}{3}-1\\
+\frac{1}{6}+\frac{1}{4}
+\end{pmatrix}
+\end{equation}
+
+
+
+
+
+
+
+
+
