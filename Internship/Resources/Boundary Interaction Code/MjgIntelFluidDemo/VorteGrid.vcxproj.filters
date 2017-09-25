@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Space">
+      <UniqueIdentifier>{c2d0165d-ea55-4067-9004-694c281c7040}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Sim">
+      <UniqueIdentifier>{59571a19-12ed-46bd-97c0-a028803c2463}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Sim\Vorton">
+      <UniqueIdentifier>{17fa7772-9a6b-4393-9801-b01ca9852051}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Sim\RigidBody">
+      <UniqueIdentifier>{bd17bed2-1437-43c9-bb0b-d13a7cbffc2d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Render">
+      <UniqueIdentifier>{8245b352-4e25-4ed8-a33d-56fd087387ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{7bcddbde-5428-45e3-8e1d-d903b796fca0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Math">
+      <UniqueIdentifier>{8be60ab4-8d9b-493d-81e7-04ec2a549d73}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\Performance">
+      <UniqueIdentifier>{ae847655-e8d4-4d7e-91d9-87f8455fc31f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="inteSiVis.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Space\uniformGridMath.cpp">
+      <Filter>Source Files\Space</Filter>
+    </ClCompile>
+    <ClCompile Include="Sim\fluidBodySim.cpp">
+      <Filter>Source Files\Sim</Filter>
+    </ClCompile>
+    <ClCompile Include="Sim\Vorton\vorticityDistribution.cpp">
+      <Filter>Source Files\Sim\Vorton</Filter>
+    </ClCompile>
+    <ClCompile Include="Sim\Vorton\vortonGrid.cpp">
+      <Filter>Source Files\Sim\Vorton</Filter>
+    </ClCompile>
+    <ClCompile Include="Sim\Vorton\vortonSim.cpp">
+      <Filter>Source Files\Sim\Vorton</Filter>
+    </ClCompile>
+    <ClCompile Include="Sim\RigidBody\rbSphere.cpp">
+      <Filter>Source Files\Sim\RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="Sim\RigidBody\rigidBody.cpp">
+      <Filter>Source Files\Sim\RigidBody</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\particleRenderer.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\qdCamera.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\qdMaterial.cpp">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="inteSiVis.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="useTbb.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="wrapperMacros.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Space\nestedGrid.h">
+      <Filter>Source Files\Space</Filter>
+    </ClInclude>
+    <ClInclude Include="Space\uniformGrid.h">
+      <Filter>Source Files\Space</Filter>
+    </ClInclude>
+    <ClInclude Include="Space\uniformGridMath.h">
+      <Filter>Source Files\Space</Filter>
+    </ClInclude>
+    <ClInclude Include="Sim\fluidBodySim.h">
+      <Filter>Source Files\Sim</Filter>
+    </ClInclude>
+    <ClInclude Include="Sim\Vorton\particle.h">
+      <Filter>Source Files\Sim\Vorton</Filter>
+    </ClInclude>
+    <ClInclude Include="Sim\Vorton\vorticityDistribution.h">
+      <Filter>Source Files\Sim\Vorton</Filter>
+    </ClInclude>
+    <ClInclude Include="Sim\Vorton\vorton.h">
+      <Filter>Source Files\Sim\Vorton</Filter>
+    </ClInclude>
+    <ClInclude Include="Sim\Vorton\vortonClusterAux.h">
+      <Filter>Source Files\Sim\Vorton</Filter>
+    </ClInclude>
+    <ClInclude Include="Sim\Vorton\vortonGrid.h">
+      <Filter>Source Files\Sim\Vorton</Filter>
+    </ClInclude>
+    <ClInclude Include="Sim\Vorton\vortonSim.h">
+      <Filter>Source Files\Sim\Vorton</Filter>
+    </ClInclude>
+    <ClInclude Include="Sim\RigidBody\rbSphere.h">
+      <Filter>Source Files\Sim\RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="Sim\RigidBody\rigidBody.h">
+      <Filter>Source Files\Sim\RigidBody</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\particleRenderer.h">
+      <Filter>Source Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\qdCamera.h">
+      <Filter>Source Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\qdMaterial.h">
+      <Filter>Source Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\mat33.h">
+      <Filter>Source Files\Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\mat4.h">
+      <Filter>Source Files\Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\math.h">
+      <Filter>Source Files\Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\vec3.h">
+      <Filter>Source Files\Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Math\vec4.h">
+      <Filter>Source Files\Core\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Performance\perf.h">
+      <Filter>Source Files\Core\Performance</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="VTune\VorteGrid.vpj" />
+  </ItemGroup>
+</Project>

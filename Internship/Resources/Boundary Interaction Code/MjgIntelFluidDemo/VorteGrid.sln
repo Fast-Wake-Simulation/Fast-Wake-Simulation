@@ -1,0 +1,32 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "VorteGrid", "VorteGrid.vcxproj", "{C64078BC-8A63-4C3D-B48D-ECC2B60E75E6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{8016CC70-FCE9-417D-A546-F60F1E4D125B}"
+	ProjectSection(SolutionItems) = preProject
+		READ_ME_FIRST.txt = READ_ME_FIRST.txt
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		ProfileWithoutTbb|x86 = ProfileWithoutTbb|x86
+		ProfileWithTbb|x86 = ProfileWithTbb|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C64078BC-8A63-4C3D-B48D-ECC2B60E75E6}.Debug|x86.ActiveCfg = Debug|Win32
+		{C64078BC-8A63-4C3D-B48D-ECC2B60E75E6}.Debug|x86.Build.0 = Debug|Win32
+		{C64078BC-8A63-4C3D-B48D-ECC2B60E75E6}.ProfileWithoutTbb|x86.ActiveCfg = ProfileWithoutTbb|Win32
+		{C64078BC-8A63-4C3D-B48D-ECC2B60E75E6}.ProfileWithoutTbb|x86.Build.0 = ProfileWithoutTbb|Win32
+		{C64078BC-8A63-4C3D-B48D-ECC2B60E75E6}.ProfileWithTbb|x86.ActiveCfg = ProfileWithTbb|Win32
+		{C64078BC-8A63-4C3D-B48D-ECC2B60E75E6}.ProfileWithTbb|x86.Build.0 = ProfileWithTbb|Win32
+		{C64078BC-8A63-4C3D-B48D-ECC2B60E75E6}.Release|x86.ActiveCfg = Release|Win32
+		{C64078BC-8A63-4C3D-B48D-ECC2B60E75E6}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

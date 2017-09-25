@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Multi-Threading Demo", "Multi-Threading Demo.csproj", "{C61AAA1C-A379-8141-7BF0-C4C60038F240}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C61AAA1C-A379-8141-7BF0-C4C60038F240}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C61AAA1C-A379-8141-7BF0-C4C60038F240}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C61AAA1C-A379-8141-7BF0-C4C60038F240}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C61AAA1C-A379-8141-7BF0-C4C60038F240}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
